@@ -10,6 +10,9 @@ import {
     setCurentPosts,
     setPosts,
     setUsers,
+    shuffle,
+    UPDATE_USERS_TO_POST,
+    updateUserToPost,
 } from "./actions";
 
 export interface User {
@@ -32,6 +35,7 @@ export interface Post {
     id: number;
     title: string;
     body: string;
+    userName: string;
 }
 export interface Posts {
     postPage: number;
@@ -58,7 +62,7 @@ const initialState: RootState = {
         curentPosts: [],
     },
 };
-let startIndex
+let startIndex;
 export const reducers = (state = initialState, action: Action): RootState => {
     switch (action.type) {
         case SET_USERS:
@@ -69,11 +73,13 @@ export const reducers = (state = initialState, action: Action): RootState => {
         case SET_POSTS:
             startIndex =
                 (action.payload.posts.length / 10) * (state.posts.postPage - 1);
+            //shufle to testing app
+            let shuffleArray = shuffle(action.payload.posts);
             return {
                 ...state,
                 posts: {
                     ...state.posts,
-                    allposts: action.payload.posts,
+                    allposts: shuffleArray,
                     curentPosts: action.payload.posts.slice(
                         startIndex,
                         startIndex + 10
@@ -91,6 +97,25 @@ export const reducers = (state = initialState, action: Action): RootState => {
                         startIndex,
                         startIndex + 10
                     ),
+                },
+            };
+        case UPDATE_USERS_TO_POST:
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    curentPosts: state.posts.curentPosts.map((post) => {
+                        let currentUserName = state.users.find(
+                            (user) => user.id === post.userId
+                        );
+                        if (currentUserName) {
+                            return {
+                                ...post,
+                                userName: currentUserName.name,
+                            };
+                        }
+                        return post;
+                    }),
                 },
             };
         case CHANGE_PAGE:
@@ -120,12 +145,15 @@ export const getUsersThunk = () => (dispatch: Function) => {
 
 export const getPostsThunk = () => (dispatch: Function) => {
     dispatch(fetching(true));
+    dispatch(getUsersThunk());
     postsApi.getPosts().then((data) => {
         dispatch(setPosts(data));
         dispatch(fetching(false));
+        dispatch(updateUserToPost());
     });
 };
 export const setCurentPostsThunk = (page: number) => (dispatch: Function) => {
     dispatch(changePage(page));
     dispatch(setCurentPosts());
+    dispatch(updateUserToPost());
 };

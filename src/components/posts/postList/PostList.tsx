@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PreLoader } from "../../loaders/preLoader";
+import { PreLoader } from "../../customComponents/preLoader";
 import styles from "./style.module.css";
 import { Pagination } from "@mui/material";
 import { Post } from "../../../redux/reducers";
@@ -30,12 +30,11 @@ export const PostList: React.FC<PostListProps> = ({
     if (isFetching) {
         return <PreLoader />;
     }
-    console.log(posts);
 
     return (
         <div className={styles.list}>
             {posts.map((post) => (
-                <PostItem post={post} key={post.id}/>
+                <PostItem post={post} key={post.id} />
             ))}
             <div className={styles.pagination}>
                 <Pagination

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { UserItem } from "../userItem/UsersItem";
 import { User } from "../../../redux/reducers";
-import { PreLoader } from "../../loaders/preLoader";
+import { PreLoader } from "../../customComponents/preLoader";
 import styles from "./style.module.css";
 
 interface UsersListProps {
