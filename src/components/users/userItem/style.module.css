@@ -1,0 +1,34 @@
+.card {
+    cursor: pointer;
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.userInfo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+    text-align: left;
+}
+
+.username {
+    font-size: 1rem;
+    color: #777;
+}
+.email{
+    margin: 0;
+    text-align: left;
+}

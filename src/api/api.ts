@@ -1,8 +1,15 @@
 const endPoint = "https://jsonplaceholder.typicode.com/";
 export const usersApi = {
-    getUsers: () => {
-        return fetch(`${endPoint}users`)
-            .then((response) => response.json())
-            .then((data) => data);
+    getUsers: async () => {
+        const response = await fetch(`${endPoint}users`);
+        const data = await response.json();
+        return data;
     },
 };
+export const postsApi = {
+    getPosts: async () => {
+        const response = await fetch(`${endPoint}posts`);
+        const data = await response.json();
+        return data;
+    },
+}
